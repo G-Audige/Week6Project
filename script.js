@@ -1,74 +1,96 @@
 document.querySelector('title').textContent = "Project"
+///////////////
+// Delarations
+///////////////
+let usStats = document.querySelector('#uss-info')
+let alienStats = document.querySelector('#alien-info')
+let battleLog = document.querySelector('#full-battlelog')
+let turn = 1
 
+///////////////////////
+// Classes and methods
+///////////////////////
 // Set properties of USS Assembly and alien ships
-const USShip = {
-    hull: 20,
-    firepower: 5,
-    accuracy: .7
+
+class USShip {
+    static hull = 20;
+    static firepower = 5;
+    static accuracy = .7
 }
-const AlienShip = {
-    hull: [3, 4, 5, 6],
-    firepower: [2, 3, 4],
-    accuracy: [.6, .7, .8]
+class AlienShip {
+    static hull = randomNum(3, 6);
+    static firepower = randomNum(2, 4);
+    static accuracy = randomNum(6, 8) / 10
 }
 
-// Generate USS Assembly Stats
+// Show USS Assembly Stats
 // hull
 const ushull = document.createElement('p')
 ushull.textContent = "Hull: " + USShip.hull
-document.querySelector('#uss-info').appendChild(ushull)
+usStats.appendChild(ushull)
 // firepower
 const usfirepower = document.createElement('p')
 usfirepower.textContent = "Firepower: " + USShip.firepower
-document.querySelector('#uss-info').appendChild(usfirepower)
+usStats.appendChild(usfirepower)
 // accuracy
 const usaccuracy = document.createElement('p')
 usaccuracy.textContent = "Accuracy: " + USShip.accuracy
-document.querySelector('#uss-info').appendChild(usaccuracy)
+usStats.appendChild(usaccuracy)
 
-// Generate alien ship stats
+// Show alien ship stats
 // hull
 const alienhull = document.createElement('p')
-let alHullHP = AlienShip.hull[Math.floor(Math.random()* AlienShip.hull.length)]
-alienhull.textContent = "Hull: " + alHullHP
-document.querySelector('#alien-info').appendChild(alienhull)
+alienhull.textContent = "Hull: " + AlienShip.hull
+alienStats.appendChild(alienhull)
 // firepower
 const alienfirepower = document.createElement('p')
-let alFire = AlienShip.firepower[Math.floor(Math.random()* AlienShip.firepower.length)]
-alienfirepower.textContent = "Firepower: " + alFire
-document.querySelector('#alien-info').appendChild(alienfirepower)
+alienfirepower.textContent = "Firepower: " + AlienShip.firepower
+alienStats.appendChild(alienfirepower)
 // accuracy
 const alienaccuracy = document.createElement('p')
-let alAcc = AlienShip.accuracy[Math.floor(Math.random()* AlienShip.accuracy.length)]
-alienaccuracy.textContent = "Accuracy: " + alAcc
-document.querySelector('#alien-info').appendChild(alienaccuracy)
+alienaccuracy.textContent = "Accuracy: " + AlienShip.accuracy
+alienStats.appendChild(alienaccuracy)
+
+
+/////////////
+// Functions
+/////////////
+// Random Number Generator
+function randomNum(min, max) {
+    let ran = Math.floor(Math.random() * (max - min) + min)
+    console.log(ran)
+    return ran
+}
 
 // Make button attack
 // USS attack 
 function attack() {
+    const report = document.createElement('h3')
+    report.textContent = "Turn " + (turn++)
+    battleLog.appendChild(report)
     if(Math.random() <= USShip.accuracy) {
-        alHullHP -= USShip.firepower
-        alienhull.textContent = "Hull: " + alHullHP
+        AlienShip.hull -= USShip.firepower
+        alienhull.textContent = "Hull: " + AlienShip.hull
         usAction(USShip.firepower)   
     }
     else {
         miss()
     }
 
-    if(alHullHP > 0) {
+    if(AlienShip.hull > 0) {
         counter()
     }
     else {
         win()
     }
 }
-// Alien counterattack
 
+// Alien counterattack
 function counter() {
-    if(Math.random() <= alAcc) {
-        USShip.hull -= alFire
+    if(Math.random() <= AlienShip.accuracy) {
+        USShip.hull -= AlienShip.firepower
         ushull.textContent = "Hull: " + USShip.hull
-        alAction(alFire)
+        alAction(AlienShip.firepower)
         if(USShip.hull <= 0) {
             lose()
         }
@@ -82,31 +104,32 @@ function counter() {
 function usAction(x) {
     const report = document.createElement('p')
     report.textContent = `You hit the alien hull for ${x} damage.`
-    document.querySelector('#bar').appendChild(report)
+    battleLog.appendChild(report)
 }
 function alAction(x) {
     const report = document.createElement('p')
     report.textContent = `The alien ship hit your hull for ${x} damage.`
-    document.querySelector('#bar').appendChild(report)
+    battleLog.appendChild(report)
 }
 function miss() {
     const report = document.createElement('p')
     report.textContent = `You missed.`
-    document.querySelector('#bar').appendChild(report)
+    battleLog.appendChild(report)
 }
 function evade() {
     const report = document.createElement('p')
     report.textContent = `You evaded fire from the alien ship.`
-    document.querySelector('#bar').appendChild(report)
+    battleLog.appendChild(report)
 }
 
 // Make win/lose state
 function win() {
-    const report = document.createElement('p')
-    report.textContent = `You win!`
-    document.querySelector('#bar').appendChild(report)
+    document.querySelector('#status').textContent = `You win!`
     document.querySelector('#controls').removeAttribute('onclick')
 }
 function lose() {
+    document.querySelector('#status').textContent = `You lost!`
     document.querySelector('#controls').removeAttribute('onclick')
 }
+
+

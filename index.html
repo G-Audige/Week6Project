@@ -11,18 +11,23 @@
     <div id="label">
         <h1>Space Fighters</h1>
     </div>
+
     <div id = "screen">
         <div class = "ships">
             <h2>USS Assembly</h2>
+            <!-- <div id="report-screen"></div> -->
         </div>
         <div class = "ships">
             <h2>Alien Ship</h2>
+            <!-- <div id="report-screen"></div> -->
         </div>
     </div>
+
     <div id = bar>
         <button id = "controls" onclick = attack()>Attack</button>
-        <p>Ready to fire...</p>
+        <p id = "status">Ready to fire...</p>
     </div>
+
     <div id = "info" >
         <div id = "uss-info" class = "ships">
             USS Assembly Stats
@@ -30,6 +35,10 @@
         <div id = "alien-info" class = "ships">
             Alien Ship Stats
         </div>
+    </div>
+
+    <div id="full-battlelog">
+        <h2>Battlelog</h2>
     </div>
 </body>
 </html>
