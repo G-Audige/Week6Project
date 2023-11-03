@@ -1,0 +1,30 @@
+body {
+    background-color: midnightblue;
+    color: white
+}
+#label {
+    border: solid azure;
+    color: azure;
+    text-align: center;
+    margin: auto;
+}
+#screen {
+    border: solid azure;
+    height: 400px;
+    display: flex;
+    flex-wrap: nowrap;  
+}
+#bar {
+    border: solid azure;
+    text-align: center;
+}
+#info {
+    border: solid azure;
+    display: flex;
+    flex-wrap: nowrap;
+}
+.ships {
+    border: solid white;
+    width: 50%;
+    text-align: center;
+}
